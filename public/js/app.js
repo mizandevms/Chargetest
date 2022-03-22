@@ -26829,6 +26829,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "flex justify-start items-center space-x-2 border border-gray-500 rounded-lg py-1 sm:py-2 px-2 sm:px-4 bg-slate-700"
   }, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "email",
+    type: "email",
     "class": "flex-1 rounded-r-lg px-3 py-1 text-gray-800 outline-none focus:outline-none h-full w-full",
     placeholder: "Your Mail",
     "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {

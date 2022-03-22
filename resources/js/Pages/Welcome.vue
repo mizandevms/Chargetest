@@ -10,7 +10,7 @@
 					<p v-if="msg.name == true" class="text-red-800 text-xs">Name is required, only alphabet, dot(".") and space (" ") is allowed</p>
 					<div id="email" draggable="true" @dragstart="handleDragStart" @dragover="handleDragOver" @drop="handleDrop" class="flex justify-start items-center space-x-2 border border-gray-500 rounded-lg py-1 sm:py-2 px-2 sm:px-4 bg-slate-700">
 						<label for="email" class="font-semibold text-xs sm:text-base">Email</label>
-						<input id="email" class="flex-1 rounded-r-lg px-3 py-1 text-gray-800 outline-none focus:outline-none h-full w-full" placeholder="Your Mail" v-model="form.email" />
+						<input id="email" type="email" class="flex-1 rounded-r-lg px-3 py-1 text-gray-800 outline-none focus:outline-none h-full w-full" placeholder="Your Mail" v-model="form.email" />
 					</div>
 					<p v-if="msg.email == true" class="text-red-800 text-xs">Email is required and must be a valid email</p>
 					<div id="dob" draggable="true" @dragstart="handleDragStart" @dragover="handleDragOver" @drop="handleDrop" class="flex justify-start items-center space-x-2 border border-gray-500 rounded-lg py-1 sm:py-2 px-2 sm:px-4 bg-slate-700">
