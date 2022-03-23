@@ -10,17 +10,17 @@
 					<p v-if="msg.name == true" class="text-red-800 text-xs">Name is required, only alphabet, dot(".") and space (" ") is allowed</p>
 					<div id="email" draggable="true" @dragstart="handleDragStart" @dragover="handleDragOver" @drop="handleDrop" class="flex justify-start items-center space-x-2 border border-gray-500 rounded-lg py-1 sm:py-2 px-2 sm:px-4 bg-slate-700">
 						<label for="email" class="font-semibold text-xs sm:text-base">Email</label>
-						<input id="email" type="email" class="flex-1 rounded-r-lg px-3 py-1 text-gray-800 outline-none focus:outline-none h-full w-full" placeholder="Your Mail" v-model="form.email" />
+						<input id="email" class="flex-1 rounded-r-lg px-3 py-1 text-gray-800 outline-none focus:outline-none h-full w-full" placeholder="Your Mail" v-model="form.email" />
 					</div>
 					<p v-if="msg.email == true" class="text-red-800 text-xs">Email is required and must be a valid email</p>
 					<div id="dob" draggable="true" @dragstart="handleDragStart" @dragover="handleDragOver" @drop="handleDrop" class="flex justify-start items-center space-x-2 border border-gray-500 rounded-lg py-1 sm:py-2 px-2 sm:px-4 bg-slate-700">
 						<label for="dob" class="font-semibold text-xs sm:text-base">Date of Birth</label>
-						<input type="date" id="dob" class="flex-1 rounded-r-lg px-3 py-1 text-gray-800 outline-none focus:outline-none h-full w-full" placeholder="Date of Birth" v-model="form.dob" />
+						<input class="flex-1 rounded-r-lg px-3 py-1 text-gray-800 outline-none focus:outline-none h-full w-full" placeholder="YYYY/MM/DD" v-model="form.dob" />
 					</div>
-					<p v-if="msg.dob == true" class="text-red-800 text-xs">Date of birth is required</p>
+					<p v-if="msg.dob == true" class="text-red-800 text-xs">Date of birth is required, accept "YYYY-MM-DD" format</p>
 					<div id="bio" draggable="true" @dragstart="handleDragStart" @dragover="handleDragOver" @drop="handleDrop" class="flex flex-col justify-start border border-gray-500 rounded-lg py-1 sm:py-2 px-2 sm:px-4 bg-slate-700">
 						<label for="bio" class="font-semibold text-xs sm:text-base">Bio</label>
-						<textarea v-model="form.bio" class="rounded-md px-3 py-1 text-gray-800 outline-none focus:outline-none h-full w-full" id="textarea" rows="3" placeholder="Your message"></textarea>
+						<textarea v-model="form.bio" maxlength="500" class="rounded-md px-3 py-1 text-gray-800 outline-none focus:outline-none h-full w-full" id="textarea" rows="3" placeholder="Your message"></textarea>
 					</div>
 					<p v-if="msg.bio == true" class="text-red-800 text-xs">Should be a textarea field with max character length of 5000 characters and display character counter</p>
 					<div id="avatar" draggable="true" @dragstart="handleDragStart" class="flex items-center space-x-6 border border-gray-500 rounded-lg py-2 px-4">
@@ -29,7 +29,7 @@
 						</div>
 						<label class="block">
 							<span class="sr-only">Choose profile photo</span>
-							<input @input="form.avatar = $event.target.files[0]" type="file" class="block text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-gray-50 file:text-gray-500 hover:file:bg-gray-100 outline-none focus:outline-none h-full w-full" />
+							<input accept="image/png, image/jpeg ,image/jpg" @input="form.avatar = $event.target.files[0]" type="file" class="block text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-gray-50 file:text-gray-500 hover:file:bg-gray-100 outline-none focus:outline-none h-full w-full" />
 						</label>
 					</div>
 					<p v-if="msg.avatar == true" class="text-red-800 text-xs">only support "jpg", "jpeg" & "png" format, max file size is 5MB, max resolution is: 600x600</p>
@@ -68,19 +68,30 @@ export default {
 		function submit() {
 			// Inertia.post("/users", form)
 
-			console.log(form)
+			// console.log(form)
+			const nameReg = /([a-z.])(\.)?(\s)?/i
+			// console.log(typeof form.name, nameReg.test(form.name), "name")
 
-			if (form.name == null) {
+			const emailReg = /(.+)@(.+)\.(.+)/i
+			// console.log(emailReg.test(form.email), "email")
+
+			const dobReg = /([1-9]\d{3})\/([0-2]\d{1})\/([0-3]\d{1})/i
+			// console.log(dobReg.test(form.dob), "dob")
+
+			// const bioReg = /[a-z]\w{499}/i
+			// console.log(bioReg.test(form.bio), "bio")
+
+			if (form.name == null || !nameReg.test(form.name)) {
 				msg.name = true
 			} else {
 				msg.name = false
 			}
-			if (form.email == null) {
+			if (form.email == null || !emailReg.test(form.email)) {
 				msg.email = true
 			} else {
 				msg.email = false
 			}
-			if (form.dob == null) {
+			if (form.dob == null || !dobReg.test(form.dob)) {
 				msg.dob = true
 			} else {
 				msg.dob = false
@@ -91,7 +102,7 @@ export default {
 			} else {
 				msg.bio = false
 			}
-			if (form.avatar == null) {
+			if (form.avatar == null || form.avatar.size > 5242880) {
 				msg.avatar = true
 			} else {
 				msg.avatar = false

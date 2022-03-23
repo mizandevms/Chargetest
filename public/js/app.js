@@ -22217,21 +22217,28 @@ __webpack_require__.r(__webpack_exports__);
 
     function submit() {
       // Inertia.post("/users", form)
-      console.log(form);
+      // console.log(form)
+      var nameReg = /([a-z.])(\.)?(\s)?/i; // console.log(typeof form.name, nameReg.test(form.name), "name")
 
-      if (form.name == null) {
+      var emailReg = /(.+)@(.+)\.(.+)/i; // console.log(emailReg.test(form.email), "email")
+
+      var dobReg = /([1-9]\d{3})\/([0-2]\d{1})\/([0-3]\d{1})/i; // console.log(dobReg.test(form.dob), "dob")
+      // const bioReg = /[a-z]\w{499}/i
+      // console.log(bioReg.test(form.bio), "bio")
+
+      if (form.name == null || !nameReg.test(form.name)) {
         msg.name = true;
       } else {
         msg.name = false;
       }
 
-      if (form.email == null) {
+      if (form.email == null || !emailReg.test(form.email)) {
         msg.email = true;
       } else {
         msg.email = false;
       }
 
-      if (form.dob == null) {
+      if (form.dob == null || !dobReg.test(form.dob)) {
         msg.dob = true;
       } else {
         msg.dob = false;
@@ -22243,7 +22250,7 @@ __webpack_require__.r(__webpack_exports__);
         msg.bio = false;
       }
 
-      if (form.avatar == null) {
+      if (form.avatar == null || form.avatar.size > 5242880) {
         msg.avatar = true;
       } else {
         msg.avatar = false;
@@ -26829,7 +26836,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "flex justify-start items-center space-x-2 border border-gray-500 rounded-lg py-1 sm:py-2 px-2 sm:px-4 bg-slate-700"
   }, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "email",
-    type: "email",
     "class": "flex-1 rounded-r-lg px-3 py-1 text-gray-800 outline-none focus:outline-none h-full w-full",
     placeholder: "Your Mail",
     "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
@@ -26853,10 +26859,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     "class": "flex justify-start items-center space-x-2 border border-gray-500 rounded-lg py-1 sm:py-2 px-2 sm:px-4 bg-slate-700"
   }, [_hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    type: "date",
-    id: "dob",
     "class": "flex-1 rounded-r-lg px-3 py-1 text-gray-800 outline-none focus:outline-none h-full w-full",
-    placeholder: "Date of Birth",
+    placeholder: "YYYY/MM/DD",
     "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
       return $setup.form.dob = $event;
     })
@@ -26864,7 +26868,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.dob]])], 32
   /* HYDRATE_EVENTS */
-  ), $setup.msg.dob == true ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_8, "Date of birth is required")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  ), $setup.msg.dob == true ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_8, "Date of birth is required, accept \"YYYY-MM-DD\" format")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     id: "bio",
     draggable: "true",
     onDragstart: _cache[13] || (_cache[13] = function () {
@@ -26881,6 +26885,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
       return $setup.form.bio = $event;
     }),
+    maxlength: "500",
     "class": "rounded-md px-3 py-1 text-gray-800 outline-none focus:outline-none h-full w-full",
     id: "textarea",
     rows: "3",
@@ -26897,6 +26902,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     "class": "flex items-center space-x-6 border border-gray-500 rounded-lg py-2 px-4"
   }, [_hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_12, [_hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    accept: "image/png, image/jpeg ,image/jpg",
     onInput: _cache[16] || (_cache[16] = function ($event) {
       return $setup.form.avatar = $event.target.files[0];
     }),
