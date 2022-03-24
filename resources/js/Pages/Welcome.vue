@@ -33,6 +33,8 @@
                             class="flex-1 rounded-r-lg px-3 py-1 text-gray-800 outline-none focus:outline-none h-full w-full"
                             placeholder="Your name"
                             v-model="form.name"
+							
+
                         />
                     </div>
                     <p v-if="msg.name == true" class="text-red-800 text-xs">
@@ -118,7 +120,10 @@
                     <div
                         class="space-y-2 border border-gray-500 rounded-lg py-2 px-4"
                     >
-                        <span class="font-light text-xs text-gray-200">(only support "jpg", "jpeg" & "png" format, max file size is 5MB, max resolution is: 600x600)</span>
+                        <span class="font-light text-xs text-gray-200"
+                            >(only support "jpg", "jpeg" & "png" format, max
+                            file size is 5MB, max resolution is: 600x600)</span
+                        >
                         <div
                             id="avatar"
                             draggable="true"
@@ -203,6 +208,8 @@ export default {
             avatar: false,
         });
 
+		
+
         function upload_image(e) {
             let file = e.target.files[0];
             let reader = new FileReader();
@@ -212,7 +219,7 @@ export default {
                 reader.onloadend = (file) => {
                     let img = new Image();
                     img.onload = function () {
-                        if (img.width == "600" && img.height == "600") {
+                        if (img.width <= "600" && img.height <= "600") {
                             image.value = reader.result;
                             form.avatar = file;
                         } else {
@@ -234,7 +241,7 @@ export default {
         function submit() {
             // Inertia.post("/data", form)
 
-            // console.log(form)
+            console.log(form.name);
             const nameReg = /^[a-zA-Z\. ]*$/i;
             // console.log(typeof form.name, nameReg.test(form.name), "name")
 
@@ -243,7 +250,7 @@ export default {
 
             const dobReg =
                 /^(?:(?:1[6-9]|[2-9]\d)?\d{2})(?:(?:(\/|-|\.)(?:0?[13578]|1[02])\1(?:31))|(?:(\/|-|\.)(?:0?[13-9]|1[0-2])\2(?:29|30)))$|^(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00)))(\/|-|\.)0?2\3(?:29)$|^(?:(?:1[6-9]|[2-9]\d)?\d{2})(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:0?[1-9]|1\d|2[0-8])$/gm;
-            console.log(dobReg.test(form.dob), "dob");
+            // console.log(dobReg.test(form.dob), "dob");
 
             if (form.name == null || !nameReg.test(form.name)) {
                 msg.name = true;
@@ -309,6 +316,7 @@ export default {
             upload_image,
             get_image,
             bioCount,
+			
         };
     },
 };

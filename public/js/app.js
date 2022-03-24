@@ -21308,7 +21308,7 @@ __webpack_require__.r(__webpack_exports__);
           var img = new Image();
 
           img.onload = function () {
-            if (img.width == "600" && img.height == "600") {
+            if (img.width <= "600" && img.height <= "600") {
               image.value = reader.result;
               form.avatar = file;
             } else {
@@ -21332,13 +21332,12 @@ __webpack_require__.r(__webpack_exports__);
 
     function submit() {
       // Inertia.post("/data", form)
-      // console.log(form)
+      console.log(form.name);
       var nameReg = /^[a-zA-Z\. ]*$/i; // console.log(typeof form.name, nameReg.test(form.name), "name")
 
       var emailReg = /(.+)@(.+)\.(.+)/i; // console.log(emailReg.test(form.email), "email")
 
-      var dobReg = /^(?:(?:1[6-9]|[2-9]\d)?\d{2})(?:(?:(\/|-|\.)(?:0?[13578]|1[02])\1(?:31))|(?:(\/|-|\.)(?:0?[13-9]|1[0-2])\2(?:29|30)))$|^(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00)))(\/|-|\.)0?2\3(?:29)$|^(?:(?:1[6-9]|[2-9]\d)?\d{2})(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:0?[1-9]|1\d|2[0-8])$/gm;
-      console.log(dobReg.test(form.dob), "dob");
+      var dobReg = /^(?:(?:1[6-9]|[2-9]\d)?\d{2})(?:(?:(\/|-|\.)(?:0?[13578]|1[02])\1(?:31))|(?:(\/|-|\.)(?:0?[13-9]|1[0-2])\2(?:29|30)))$|^(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00)))(\/|-|\.)0?2\3(?:29)$|^(?:(?:1[6-9]|[2-9]\d)?\d{2})(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:0?[1-9]|1\d|2[0-8])$/gm; // console.log(dobReg.test(form.dob), "dob");
 
       if (form.name == null || !nameReg.test(form.name)) {
         msg.name = true;
