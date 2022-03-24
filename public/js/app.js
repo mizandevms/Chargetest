@@ -22200,12 +22200,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   setup: function setup() {
+    var image = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(null);
+    var bioCount = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(0);
     var form = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__.useForm)({
       name: null,
       email: null,
       dob: null,
-      bio: null,
+      bio: "",
       avatar: null
+    });
+    (0,vue__WEBPACK_IMPORTED_MODULE_2__.watchEffect)(function () {
+      bioCount.value = form.bio.length;
     });
     var msg = (0,vue__WEBPACK_IMPORTED_MODULE_2__.reactive)({
       name: false,
@@ -22215,16 +22220,47 @@ __webpack_require__.r(__webpack_exports__);
       avatar: false
     });
 
+    function upload_image(e) {
+      var file = e.target.files[0];
+      var reader = new FileReader();
+      console.log(file, "file");
+
+      if (file["size"] < 2111775) {
+        reader.onloadend = function (file) {
+          var img = new Image();
+
+          img.onload = function () {
+            if (img.width == "600" && img.height == "600") {
+              image.value = reader.result;
+              form.avatar = file;
+            } else {
+              alert("File resolution must be (600X600)");
+            }
+          };
+
+          img.src = reader.result;
+        };
+
+        reader.readAsDataURL(file);
+      } else {
+        alert("File size can not be bigger than 2 MB");
+      }
+    }
+
+    function get_image() {
+      var photo = image.value;
+      return photo;
+    }
+
     function submit() {
       // Inertia.post("/users", form)
       // console.log(form)
-      var nameReg = /([a-z.])(\.)?(\s)?/i; // console.log(typeof form.name, nameReg.test(form.name), "name")
+      var nameReg = /^[a-zA-Z\. ]*$/i; // console.log(typeof form.name, nameReg.test(form.name), "name")
 
       var emailReg = /(.+)@(.+)\.(.+)/i; // console.log(emailReg.test(form.email), "email")
 
-      var dobReg = /([1-9]\d{3})\/([0-2]\d{1})\/([0-3]\d{1})/i; // console.log(dobReg.test(form.dob), "dob")
-      // const bioReg = /[a-z]\w{499}/i
-      // console.log(bioReg.test(form.bio), "bio")
+      var dobReg = /^(?:(?:1[6-9]|[2-9]\d)?\d{2})(?:(?:(\/|-|\.)(?:0?[13578]|1[02])\1(?:31))|(?:(\/|-|\.)(?:0?[13-9]|1[0-2])\2(?:29|30)))$|^(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00)))(\/|-|\.)0?2\3(?:29)$|^(?:(?:1[6-9]|[2-9]\d)?\d{2})(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:0?[1-9]|1\d|2[0-8])$/gm;
+      console.log(dobReg.test(form.dob), "dob");
 
       if (form.name == null || !nameReg.test(form.name)) {
         msg.name = true;
@@ -22244,7 +22280,7 @@ __webpack_require__.r(__webpack_exports__);
         msg.dob = false;
       }
 
-      if (form.bio == null) {
+      if (form.bio == "") {
         msg.bio = true;
       } else {
         msg.bio = false;
@@ -22285,7 +22321,10 @@ __webpack_require__.r(__webpack_exports__);
       handleDragStart: handleDragStart,
       handleDragOver: handleDragOver,
       handleDrop: handleDrop,
-      msg: msg
+      msg: msg,
+      upload_image: upload_image,
+      get_image: get_image,
+      bioCount: bioCount
     };
   }
 });
@@ -26733,45 +26772,50 @@ var _hoisted_8 = {
   key: 2,
   "class": "text-red-800 text-xs"
 };
+var _hoisted_9 = {
+  "class": "flex justify-between items-baseline"
+};
 
-var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "for": "bio",
   "class": "font-semibold text-xs sm:text-base"
 }, "Bio", -1
 /* HOISTED */
 );
 
-var _hoisted_10 = {
+var _hoisted_11 = {
+  "class": "font-light text-xs"
+};
+var _hoisted_12 = {
   key: 3,
   "class": "text-red-800 text-xs"
 };
-
-var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_13 = {
   "class": "shrink-0"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+};
+var _hoisted_14 = ["src"];
+var _hoisted_15 = {
+  key: 1,
   "class": "h-12 w-12 object-cover rounded-full",
   src: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1361&q=80",
   alt: "Current profile photo"
-})], -1
-/* HOISTED */
-);
-
-var _hoisted_12 = {
+};
+var _hoisted_16 = {
   "class": "block"
 };
 
-var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "sr-only"
 }, "Choose profile photo", -1
 /* HOISTED */
 );
 
-var _hoisted_14 = {
+var _hoisted_18 = {
   key: 4,
   "class": "text-red-800 text-xs"
 };
 
-var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
   type: "submit",
   "class": "text-gray-50 border border-gray-500 bg-slate-700 hover:bg-opacity-60 px-4 py-2 font-extrabold w-full rounded-full"
 }, "Submit", -1
@@ -26780,7 +26824,7 @@ var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-    onSubmit: _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+    onSubmit: _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $setup.submit && $setup.submit.apply($setup, arguments);
     }, ["prevent"])),
     "class": "p-4 space-y-2 bg-slate-800 border border-gray-700 text-gray-50 rounded-lg shadow-lg shadow-slate-200/20"
@@ -26788,13 +26832,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     id: "div1",
     "class": "space-y-2",
     draggable: "true",
-    onDragstart: _cache[18] || (_cache[18] = function () {
+    onDragstart: _cache[19] || (_cache[19] = function () {
       return $setup.handleDragStart && $setup.handleDragStart.apply($setup, arguments);
     }),
-    onDragover: _cache[19] || (_cache[19] = function () {
+    onDragover: _cache[20] || (_cache[20] = function () {
       return $setup.handleDragOver && $setup.handleDragOver.apply($setup, arguments);
     }),
-    onDrop: _cache[20] || (_cache[20] = function () {
+    onDrop: _cache[21] || (_cache[21] = function () {
       return $setup.handleDrop && $setup.handleDrop.apply($setup, arguments);
     })
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
@@ -26860,7 +26904,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "flex justify-start items-center space-x-2 border border-gray-500 rounded-lg py-1 sm:py-2 px-2 sm:px-4 bg-slate-700"
   }, [_hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "class": "flex-1 rounded-r-lg px-3 py-1 text-gray-800 outline-none focus:outline-none h-full w-full",
-    placeholder: "YYYY/MM/DD",
+    placeholder: "YYYY-MM-DD",
     "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
       return $setup.form.dob = $event;
     })
@@ -26881,7 +26925,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $setup.handleDrop && $setup.handleDrop.apply($setup, arguments);
     }),
     "class": "flex flex-col justify-start border border-gray-500 rounded-lg py-1 sm:py-2 px-2 sm:px-4 bg-slate-700"
-  }, [_hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_11, "(" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.bioCount) + "/500)", 1
+  /* TEXT */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
     "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
       return $setup.form.bio = $event;
     }),
@@ -26894,17 +26940,27 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.form.bio]])], 32
   /* HYDRATE_EVENTS */
-  ), $setup.msg.bio == true ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_10, "Should be a textarea field with max character length of 5000 characters and display character counter")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  ), $setup.msg.bio == true ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_12, "Should be a textarea field with max character length of 5000 characters and display character counter")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     id: "avatar",
     draggable: "true",
-    onDragstart: _cache[17] || (_cache[17] = function () {
+    onDragstart: _cache[18] || (_cache[18] = function () {
       return $setup.handleDragStart && $setup.handleDragStart.apply($setup, arguments);
     }),
     "class": "flex items-center space-x-6 border border-gray-500 rounded-lg py-2 px-4"
-  }, [_hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_12, [_hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [$setup.get_image() ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
+    key: 0,
+    "class": "h-12 w-12 object-cover rounded-full",
+    src: $setup.get_image(),
+    alt: "Current profile photo"
+  }, null, 8
+  /* PROPS */
+  , _hoisted_14)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", _hoisted_15))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_16, [_hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     accept: "image/png, image/jpeg ,image/jpg",
     onInput: _cache[16] || (_cache[16] = function ($event) {
       return $setup.form.avatar = $event.target.files[0];
+    }),
+    onChange: _cache[17] || (_cache[17] = function () {
+      return $setup.upload_image && $setup.upload_image.apply($setup, arguments);
     }),
     type: "file",
     "class": "block text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-gray-50 file:text-gray-500 hover:file:bg-gray-100 outline-none focus:outline-none h-full w-full"
@@ -26912,9 +26968,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* HYDRATE_EVENTS */
   )])], 32
   /* HYDRATE_EVENTS */
-  ), $setup.msg.avatar == true ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_14, "only support \"jpg\", \"jpeg\" & \"png\" format, max file size is 5MB, max resolution is: 600x600")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 32
+  ), $setup.msg.avatar == true ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_18, "only support \"jpg\", \"jpeg\" & \"png\" format, max file size is 5MB, max resolution is: 600x600")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 32
   /* HYDRATE_EVENTS */
-  ), _hoisted_15], 32
+  ), _hoisted_19], 32
   /* HYDRATE_EVENTS */
   )])]);
 }
